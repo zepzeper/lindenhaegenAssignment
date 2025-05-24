@@ -61,38 +61,7 @@ class Analyzer extends Command
 
         $this->displayResults($output, $studentResults);
         $this->displaySummary($output, $studentResults);
-
-        $helper = new QuestionHelper();
-
-        while (true) {
-            $output->writeln('');
-            $output->writeln('<info>╔═══════════════════════════════════════╗</info>');
-            $output->writeln('<info>║           Available Options          ║</info>');
-            $output->writeln('<info>╠═══════════════════════════════════════╣</info>');
-            $output->writeln('<info>║</info> <comment>1.</comment> Calculate P value                <info>║</info>');
-            $output->writeln('<info>║</info> <comment>2.</comment> Calculate R value                <info>║</info>');
-            $output->writeln('<info>║</info> <comment>3.</comment> Exit                             <info>║</info>');
-            $output->writeln('<info>╚═══════════════════════════════════════╝</info>');
-            $output->writeln('');
-
-            $question = new Question('<question>Select an option (1-3): </question>');
-            $choice = $helper->ask($input, $output, $question);
-
-            switch ($choice) {
-                case '1':
-                    $this->handlePValueCalculation($input, $output, $helper, $studentResults);
-                    break;
-                case '2':
-                    $this->handleRValueCalculation($input, $output, $helper, $studentResults);
-                    break;
-                case '3':
-                    $output->writeln('Goodbye!');
-                    return Command::SUCCESS;
-                default:
-                    $output->writeln('<error>Invalid option. Please select 1, 2, or 3.</error>');
-                    break;
-            }
-        }
+        $this->displayOptions($output, $input, $studentResults);
 
         return Command::SUCCESS;
     }
@@ -134,6 +103,41 @@ class Analyzer extends Command
         $output->writeln("Failed: <fg=red>{$failedStudents}</>");
         $output->writeln("Pass Rate: {$passRate}%");
         $output->writeln("Average Grade: {$averageGrade}");
+    }
+
+    private function displayOptions(OutputInterface $output,InputInterface $input,  array $studentResults)
+    {
+        $helper = new QuestionHelper();
+
+        while (true) {
+            $output->writeln('');
+            $output->writeln('<info>╔═══════════════════════════════════════╗</info>');
+            $output->writeln('<info>║           Available Options          ║</info>');
+            $output->writeln('<info>╠═══════════════════════════════════════╣</info>');
+            $output->writeln('<info>║</info> <comment>1.</comment> Calculate P value                <info>║</info>');
+            $output->writeln('<info>║</info> <comment>2.</comment> Calculate R value                <info>║</info>');
+            $output->writeln('<info>║</info> <comment>3.</comment> Exit                             <info>║</info>');
+            $output->writeln('<info>╚═══════════════════════════════════════╝</info>');
+            $output->writeln('');
+
+            $question = new Question('<question>Select an option (1-3): </question>');
+            $choice = $helper->ask($input, $output, $question);
+
+            switch ($choice) {
+                case '1':
+                    $this->handlePValueCalculation($input, $output, $helper, $studentResults);
+                    break;
+                case '2':
+                    $this->handleRValueCalculation($input, $output, $helper, $studentResults);
+                    break;
+                case '3':
+                    $output->writeln('Goodbye!');
+                    return Command::SUCCESS;
+                default:
+                    $output->writeln('<error>Invalid option. Please select 1, 2, or 3.</error>');
+                    break;
+            }
+        }
     }
 
     private function handlePValueCalculation(InputInterface $input, OutputInterface $output, QuestionHelper $helper)
