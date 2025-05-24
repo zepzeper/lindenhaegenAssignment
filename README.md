@@ -18,12 +18,12 @@ php bin/console exam:analyze <file-path> <sheet-number>
 ### Parameters
 
 - `file-path`: Path to your Excel file containing exam results
-- `sheet-number`: Index of the sheet to analyze (typically 0 for first sheet)
+- `sheet-number`: Index of the sheet to analyze (typically 1 for first sheet)
 
 ### Example
 
 ```bash
-php bin/console exam:analyze /path/to/exam_results.xlsx 0
+php bin/console exam:analyze /path/to/exam_results.xlsx 1
 ```
 
 ## Interactive Features
